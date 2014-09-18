@@ -60,3 +60,9 @@ are documents consisting of the following fields:
     group      : // name of tag group
 }
 ```
+
+## UI
+The package is very lightweight, and does not include any UI, as many
+JQuery plugins work very well already. Here is an example of a UI using
+selectize.
+https://gist.github.com/patrickleet/e1c7a05eca86f536e3d4
