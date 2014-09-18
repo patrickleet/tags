@@ -8,7 +8,7 @@ Package.onUse(function(api) {
   api.versionsFrom('METEOR@0.9.2.2');
   
   api.use(['livedata', 'mongo-livedata'], ['client', 'server']);
-  api.use('aldeed:collection2', ['client', 'server'], {weak: true});
+  api.use('aldeed:collection2@2.0.1', ['client', 'server'], {weak: true});
   
   api.addFiles('patrickleet:tags.js', ['client', 'server']);
 
