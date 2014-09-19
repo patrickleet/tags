@@ -16,6 +16,7 @@ var collections = {};
 var validators = {};
 var defaultCollection = null;
 var hasCollection2 = !!Package['aldeed:collection2'];
+var hasSimpleSchema = !!Package['aldeed:simple-schema'];
 
 var safe = function (userId, collection, selector, action) {
   var count = 0;
@@ -80,8 +81,20 @@ _.extend(Tags, {
           updateOptions.$addToSet.tagGroups = tagGroup;
         }
 
-        // if collection2 and attached schema use validate:false
-        if (hasCollection2 && !!collection.simpleSchema()) {
+        // if collection2 and attached schema use validate:false and create temp schema 
+        // so it isn't cleaned
+        if (hasCollection2 && hasSimpleSchema && !!collection.simpleSchema()) {
+          var tempSchema = {};
+          tempSchema[tagGroupKey] = {
+            type: [String],
+            optional: true
+          };
+          tempSchema.tagGroups = {
+            type: [String],
+            optional: true
+          };        
+          var tempSimpleSchema = new SimpleSchema(tempSchema);
+          collection.attachSchema(tempSimpleSchema);    
           collection.update({_id:doc._id}, updateOptions, {validate: false});
         } else {
           collection.update({_id:doc._id}, updateOptions);
@@ -94,7 +107,8 @@ _.extend(Tags, {
         // if at least one tag was added, update tags collection
         var tag = Meteor.tags.findOne({
           name: tagName,
-          collection: collection._name
+          collection: collection._name,
+          group: tagGroup
         });
 
         if (tag) {
@@ -131,7 +145,7 @@ _.extend(Tags, {
         }
 
         // if collection2 use validate:false
-        if (hasCollection2 && !!collection.simpleSchema()) {
+        if (hasCollection2 && !!collection.simpleSchema()) { 
           collection.update({_id:doc._id}, updateOptions, {validate: false});
         } else {
           collection.update({_id:doc._id}, updateOptions);
