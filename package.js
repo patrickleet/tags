@@ -1,6 +1,6 @@
 Package.describe({
   summary: "Add groups of tags to selected collections",
-  version: "1.0.1",
+  version: "1.1.0",
   git: "https://github.com/patrickleet/tags"
 });
 
