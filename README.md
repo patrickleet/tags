@@ -40,9 +40,27 @@ To search for all documents with a given tag in a group use:
 MyCollection.find({tagGroupTags:'tagName'});
 ```
 
+Tags are stored as an array on the documents specified by the selector. If you use a tagGroup the group is prefixed by the tagGroup name and also stored on the documents. That means getting the tags for a particular document is as simple as:
+```javascript 
+MyCollection.addTag('so tag', {_id: 1});
+MyCollection.addTag('much meta', {_id: 1});
+MyCollection.findOne({_id: 1}).tags; // ['so tag', 'much meta']
+
+MyCollection.addTag('Chelsea', 'neighborhood', {_id: 1});
+MyCollection.findOne({_id: 1}).neighborhoodTags; // ['Chelsea']
+
+```
+
 To see all tagGroups on a document
 ```javascript
-MyCollection.findOne().tagGroups
+MyCollection.findOne().tagGroups 
+```
+This may be useful to loop through and check all of the tag properties of the document
+```javascript
+var myDoc = MyCollection.findOne({_id: 1});
+_.each(myDoc.tagGroups, function(groupName) {
+   console.log(myDoc[groupName+'Tags']);
+});
 ```
 
 ## Meteor.tags
