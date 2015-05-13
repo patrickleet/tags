@@ -80,3 +80,6 @@ Additionally, you have a read only access to `Meteor.tags` collection that keeps
 ## UI
 
 The package is very lightweight, and does not include any UI, as many JQuery plugins work very well already. Here is an example of a UI using selectize: https://gist.github.com/patrickleet/e1c7a05eca86f536e3d4
+
+## Example Project
+[Demo by @dstollie](https://github.com/dstollie/patrickleet-tags-demo)
