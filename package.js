@@ -12,7 +12,7 @@ Package.onUse(function(api) {
   api.use('aldeed:collection2@2.3.2', ['client', 'server'], {weak: true});
   api.use('aldeed:simple-schema@1.3.0', ['client', 'server'], {weak: true});
   
-  api.addFiles('patrickleet:tags.js', ['client', 'server']);
+  api.addFiles('patrickleet-tags.js', ['client', 'server']);
 
   if (api.export !== undefined) {
     api.export('Tags');
@@ -21,6 +21,6 @@ Package.onUse(function(api) {
 
 Package.onTest(function(api) {
   api.use('tinytest');
-  api.use('patrickleet:tags');
-  api.addFiles('patrickleet:tags-tests.js');
+  api.use('patrickleet-tags');
+  api.addFiles('patrickleet-tags-tests.js');
 });
