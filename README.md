@@ -63,6 +63,43 @@ _.each(myDoc.tagGroups, function(groupName) {
 });
 ```
 
+### Example
+```javascript
+Buildings = new Meteor.Collection('buildings');
+Tags.TagsMixin(Buildings);
+
+Buildings.allowTags(function (userId) { return true; });
+
+mansionId = Buildings.insert({ name: 'My downtown mansion', type: 'mansion' });
+Buildings.addTag('humble', { _id: mansionId });
+Buildings.addTag('mansion', { _id: mansionId });
+Buildings.addTag('leaks', 'roof', { _id: mansionId });
+Buildings.addTag('asbestos', 'roof', { _id: mansionId });
+
+mansion = Buildings.findOne({ _id: mansionId });
+mansion.tags; // => [ 'humble', 'mansion' ]
+mansion.roofTags; // => [ 'leaks', 'asbestos' ]
+mansion.tagGroups; // => [ 'roof' ]
+
+mansion;
+// mansion => {
+//   _id: '6PGs97ZgXigkN44uy',
+//   name: 'My downtown mansion',
+//   type: 'mansion',
+//   tags: [ 'humble', 'mansion' ],
+//   roofTags: [ 'leaks', 'asbestos' ],
+//   tagGroups: [ 'roof' ]
+// }
+
+lodash.each(mansion.tagGroups, function(groupName) {
+  console.log( groupName, ':', mansion[groupName+'Tags'] );
+});
+// console => roof : [ 'leaks', 'asbestos' ]
+
+console.log( 'tags', ':', mansion['tags'] );
+// console => tags : [ 'humble', 'mansion' ]
+```
+
 ## Meteor.tags
 
 Additionally, you have a read only access to `Meteor.tags` collection that keeps record about all tags existing in your database. The records are documents consisting of the following fields:
