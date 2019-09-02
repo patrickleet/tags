@@ -6,9 +6,12 @@
   @git: https://github.com/patrickleet/meteor-tags
 */
 
+
 Tags = {};
 
 Meteor.tags = new Meteor.Collection("tags");
+
+const SimpleSchema = require('simpl-schema').default;
 
 var _ = Package.underscore._;
 var tagsInterface = {};
@@ -16,7 +19,6 @@ var collections = {};
 var validators = {};
 var defaultCollection = null;
 var hasCollection2 = !!Package['aldeed:collection2'];
-var hasSimpleSchema = !!Package['aldeed:simple-schema'];
 
 var safe = function (userId, collection, selector, action) {
   var count = 0;
@@ -83,14 +85,22 @@ _.extend(Tags, {
 
         // if collection2 and attached schema use validate:false and create temp schema
         // so it isn't cleaned
-        if (hasCollection2 && hasSimpleSchema && !!collection.simpleSchema()) {
+        if (hasCollection2 && !!SimpleSchema) {
           var tempSchema = {};
           tempSchema[tagGroupKey] = {
-            type: [String],
+            type: Array,
+            optional: true
+          };
+          tempSchema[tagGroupKey + '.$'] = {
+            type: String,
             optional: true
           };
           tempSchema.tagGroups = {
-            type: [String],
+            type: Array,
+            optional: true
+          };
+          tempSchema['tagGroups.$'] = {
+            type: String,
             optional: true
           };
           var tempSimpleSchema = new SimpleSchema(tempSchema);
